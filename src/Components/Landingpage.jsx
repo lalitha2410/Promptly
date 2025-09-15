@@ -25,11 +25,7 @@ function Landingpage() {
             <p className="text-white font-bold text-[20px]">Promptly</p>
           </div>
 
-          <div className="flex justify-center items-center gap-5 ">
-            <p className="text-gray-400">Home</p>
-            <p className="text-gray-400">Features</p>
-            <p className="text-gray-400">About</p>
-          </div>
+       
 
           <button onClick={()=>navigate('/ChatPage')} className=" flex justify-center items-center h-[40px] w-[100px] rounded-lg gap-2  bg-[#3C83F6] text-black text-[13px] hover:bg-[#3c74f6]  cursor-pointer shadow-xl hover:scale-105 transition-all duration-50 font-semibold">
             <MessageCircleMore className="size-[15px]" /> Try Now

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Bot, MessageCircleMore, Send, User } from "lucide-react";
 import axios from "axios";
-const apiKey = import.meta.env.VITE_API_KEY;
+import ReactMarkdown from "react-markdown";
+
+const API_KEY = import.meta.env.VITE_API_KEY;
 
 const Chatpage = () => {
   const [messages, setMessages] = useState([
@@ -45,7 +47,7 @@ const Chatpage = () => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
+          Authorization: `Bearer ${API_KEY}`,
         },
       }
     );
@@ -82,13 +84,17 @@ const Chatpage = () => {
             )}
 
             <div
-              className={`px-4 py-2 rounded-2xl max-w-xs ${
+              className={`px-4 py-2 rounded-2xl  w-fit max-w-[60%]  ${
                 msg.sender === "user"
                   ? "bg-[#3C83F6] text-black rounded-br-none"
                   : "bg-gray-800 text-white rounded-bl-none"
               }`}
             >
-              {msg.text}
+              {msg.sender === "user" ? (
+                msg.text
+              ) : (
+                <ReactMarkdown>{msg.text}</ReactMarkdown>
+              )}
             </div>
             {msg.sender === "user" && (
               <div className="h-8 w-8 rounded-full bg-gray-600 flex items-center justify-center">
