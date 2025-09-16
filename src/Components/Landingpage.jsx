@@ -30,7 +30,7 @@ function Landingpage() {
           </div>
           <div className="px-3 py-1 rounded-2xl bg-gray-800 flex items-center gap-2">
             <Sparkles className="text-[#3C83F6] size-4" />
-            <p className="text-white font-semibold text-xs sm:text-sm">Powered by OpenAI</p>
+            <p className="text-white font-semibold text-xs sm:text-sm">Powered by  DeepSeek V3.1</p>
           </div>
         </div>
 
