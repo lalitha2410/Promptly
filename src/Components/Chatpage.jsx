@@ -68,7 +68,7 @@ const Chatpage = () => {
 
   return (
     <div className="min-h-screen w-full flex flex-col bg-black">
-      <nav className="fixed h-[100px] w-full bg-[#16161a] border border-b-gray-800 flex items-center gap-2 p-5">
+      <nav className="fixed md:h-[100px] h-[65px] w-full bg-[#16161a] border border-b-gray-800 flex items-center gap-2 p-5">
         <div className="h-[45px] w-[45px] rounded-full bg-[#3C83F6] flex items-center justify-center">
           <Bot className="size-[33px]" />
         </div>
@@ -128,7 +128,7 @@ const Chatpage = () => {
         )}
       </div>
 
-      <div className="fixed bottom-0 bg-[#16161a] h-[110px] w-full flex justify-center items-center border gap-3 border-t-gray-800 p-4">
+      <div className="fixed bottom-0 bg-[#16161a] h-[90px]  sm:h-[110px] w-full flex justify-center items-center border gap-3 border-t-gray-800 p-4">
         <input
           type="text"
           placeholder="Type your message..."
