@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState,useRef } from "react";
 import { Bot, MessageCircleMore, Send, User } from "lucide-react";
+import { SquareStop } from 'lucide-react';
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
 
@@ -11,9 +12,11 @@ const Chatpage = () => {
   ]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+ const controllerRef = useRef(null);
 
   const handleSend = async () => {
     if (!input.trim()) return;
+    
 
     setMessages((prev) => [...prev, { sender: "user", text: input }]);
     setInput("");
@@ -33,6 +36,7 @@ const Chatpage = () => {
     }
   };
   async function handleGetResponse() {
+    controllerRef.current = new AbortController();
     const { data } = await axios.post(
       "https://openrouter.ai/api/v1/chat/completions",
       {
@@ -49,10 +53,18 @@ const Chatpage = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${API_KEY}`,
         },
+        signal: controllerRef.current.signal, 
       }
     );
     return data;
   }
+  const handleStop = () => {
+  if (controllerRef.current) {
+    controllerRef.current.abort(); 
+  }
+  setIsTyping(false);
+};
+
 
   return (
     <div className="min-h-screen w-full flex flex-col bg-black">
@@ -126,10 +138,10 @@ const Chatpage = () => {
           onKeyDown={(e) => e.key === "Enter" && handleSend()}
         />
         <div
-          onClick={handleSend}
+          onClick={isTyping ? handleStop : handleSend}
           className="h-[45px] w-[45px] rounded-lg bg-[#3c83f6] flex justify-center items-center text-white cursor-pointer hover:bg-[#3c74f6]"
         >
-          <Send />
+         { !isTyping ? (<Send />) :  (<SquareStop/>) }
         </div>
       </div>
     </div>
