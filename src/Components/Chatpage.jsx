@@ -26,11 +26,20 @@ const Chatpage = () => {
     try {
       const response = await handleGetResponse();
 
-      const reply = response?.choices[0]?.message?.content;
+      const reply = response?.choices?.[0]?.message?.content;
+
+      if (!reply) {
+        throw new Error("No reply received from the model. Please try again.");
+      }
 
       setMessages((prev) => [...prev, { sender: "bot", text: reply }]);
     } catch (error) {
       console.log(error);
+      const errMsg =
+        error?.response?.data?.error?.message ||
+        error?.message ||
+        "Something went wrong. Please try again.";
+      setMessages((prev) => [...prev, { sender: "bot", text: `⚠️ ${errMsg}` }]);
     } finally {
       setIsTyping(false);
     }
@@ -40,7 +49,7 @@ const Chatpage = () => {
     const { data } = await axios.post(
       "https://openrouter.ai/api/v1/chat/completions",
       {
-        model: "deepseek/deepseek-chat-v3.1:free",
+        model: "liquid/lfm-2.5-2.6b:free",
         messages: [
           {
             role: "user",
@@ -53,9 +62,12 @@ const Chatpage = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${API_KEY}`,
         },
-        signal: controllerRef.current.signal, 
+        signal: controllerRef.current.signal,
       }
     );
+    if (data?.error) {
+      throw new Error(data.error.message || "The model provider returned an error.");
+    }
     return data;
   }
   const handleStop = () => {
